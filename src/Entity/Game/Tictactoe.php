@@ -35,14 +35,14 @@ class Tictactoe extends Game
      *
      * @var string
      */
-    protected static $title = 'Tic-Tac-Toe';
+    protected static $title = 'تيك تاك تو';
 
     /**
      * Game description
      *
      * @var string
      */
-    protected static $description = 'Tic-tac-toe is a game for two players, X and O, who take turns marking the spaces in a 3×3 grid.';
+    protected static $description = 'تيك تاك تو  ❌⭕️: هي لعبة للاعبين ، X و O ، يتناوبون على تحديد المسافات في شبكة 3 × 3.';
 
     /**
      * Game thumbnail image
@@ -81,7 +81,7 @@ class Tictactoe extends Game
     protected function gameAction(): ServerResponse
     {
         if ($this->getCurrentUserId() !== $this->getUserId('host') && $this->getCurrentUserId() !== $this->getUserId('guest')) {
-            return $this->answerCallbackQuery(__("You're not in this game!"), true);
+            return $this->answerCallbackQuery(__("أنت لست في هذه اللعبة!"), true);
         }
 
         $data = &$this->data['game_data'];
@@ -116,15 +116,15 @@ class Tictactoe extends Game
         }
 
         if (isset($data['current_turn']) && $data['current_turn'] == 'E') {
-            return $this->answerCallbackQuery(__("This game has ended!"), true);
+            return $this->answerCallbackQuery(__("هذه اللعبة قد انتهت!"), true);
         }
 
         if ($this->getCurrentUserId() !== $this->getUserId($data['settings'][$data['current_turn']]) && $command !== 'start') {
-            return $this->answerCallbackQuery(__("It's not your turn!"), true);
+            return $this->answerCallbackQuery(__("ليس دورك!"), true);
         }
 
         if (isset($args) && isset($data['board'][$args[0]][$args[1]]) && $data['board'][$args[0]][$args[1]] !== '') {
-            return $this->answerCallbackQuery(__("Invalid move!"), true);
+            return $this->answerCallbackQuery(__("خطوة غير صحيحة!"), true);
         }
 
         $this->max_y = count($data['board']);
@@ -150,9 +150,9 @@ class Tictactoe extends Game
         $gameOutput = '';
 
         if (!empty($isOver) && in_array($isOver, ['X', 'O'])) {
-            $gameOutput = Emoji::trophy() . ' <b>' . __("{PLAYER} won!", ['{PLAYER}' => '</b>' . $this->getUserMention($data['settings'][$isOver]) . '<b>']) . '</b>';
+            $gameOutput = Emoji::trophy() . ' <b>' . __("فاز {PLAYER}!", ['{PLAYER}' => '</b>' . $this->getUserMention($data['settings'][$isOver]) . '<b>']) . '</b>';
         } elseif ($isOver == 'T') {
-            $gameOutput = Emoji::chequeredFlag() . ' <b>' . __("Game ended with a draw!") . '</b>';
+            $gameOutput = Emoji::chequeredFlag() . ' <b>' . __("انتهت اللعبة بالتعادل!😁") . '</b>';
         }
 
         if (!empty($isOver) && in_array($isOver, ['X', 'O', 'T'])) {
