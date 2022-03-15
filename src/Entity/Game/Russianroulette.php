@@ -72,7 +72,7 @@ class Russianroulette extends Game
     protected function gameAction(): ServerResponse
     {
         if ($this->getCurrentUserId() !== $this->getUserId('host') && $this->getCurrentUserId() !== $this->getUserId('guest')) {
-            return $this->answerCallbackQuery(__("You're not in this game!"), true);
+            return $this->answerCallbackQuery(__("أنت لست في هذه اللعبة!"), true);
         }
 
         $data = &$this->data['game_data'];
