@@ -197,7 +197,7 @@ class Poolcheckers extends Checkers
                             return $this->answerCallbackQuery(__("يجب عليك القفز عندما يكون ذلك ممكنا!"), true);
                         }
                     } else {
-                        Utilities::debugPrint('Listing possible moves');
+                        Utilities::debugPrint('سرد التحركات الممكنة');
 
                         $possibleMoves = $this->possibleMoves($data['board'], $data['current_selection']);
 
@@ -272,7 +272,7 @@ class Poolcheckers extends Checkers
                             } elseif ($this->getCurrentUserId() === $this->getUserId($data['settings'][$data['current_turn']]) && strpos($data['board'][$args[0]][$args[1]], $data['current_turn']) !== false) {
                                 $data['current_selection'] = $args[0] . $args[1];
                             } else {
-                                return $this->answerCallbackQuery(__("Invalid move!"), true);
+                                return $this->answerCallbackQuery(__("تحرك غير صحيح!"), true);
                             }
                         }
                     }
