@@ -124,7 +124,7 @@ class Checkers extends Game
 
         if ($this->getUser('host') && $this->getCurrentUserId() === $this->getUserId('host')) {
             if ($data['vote']['host']['surrender']) {
-                Utilities::isDebugPrintEnabled() && Utilities::debugPrint($this->getCurrentUserMention() . ' surrendered');
+                Utilities::isDebugPrintEnabled() && Utilities::debugPrint($this->getCurrentUserMention() . ' استسلم');
 
                 $gameOutput = Emoji::trophy() . ' <b>' . __("{PLAYER} ربح! 😇", ['{PLAYER}' => '</b>' . $this->getUserMention('guest') . '<b>']) . '</b>' . PHP_EOL;
                 $gameOutput .= Emoji::whiteFlag() . ' <b>' . __("استسلم {PLAYER}! 🤕", ['{PLAYER}' => '</b>' . $this->getUserMention('host') . '<b>']) . '</b>' . PHP_EOL;
@@ -139,7 +139,7 @@ class Checkers extends Game
                 }
             }
 
-            Utilities::isDebugPrintEnabled() && Utilities::debugPrint($this->getCurrentUserMention() . ' voted to surrender');
+            Utilities::isDebugPrintEnabled() && Utilities::debugPrint($this->getCurrentUserMention() . ' صوتوا على الاستسلام');
             $data['vote']['host']['surrender'] = true;
 
             if ($this->saveData($this->data)) {
@@ -149,7 +149,7 @@ class Checkers extends Game
 
         if ($this->getUser('guest') && $this->getCurrentUserId() === $this->getUserId('guest')) {
             if ($data['vote']['guest']['surrender']) {
-                Utilities::isDebugPrintEnabled() && Utilities::debugPrint($this->getCurrentUserMention() . ' surrendered');
+                Utilities::isDebugPrintEnabled() && Utilities::debugPrint($this->getCurrentUserMention() . ' استسلم');
 
                 $gameOutput = Emoji::trophy() . ' <b>' . __("{PLAYER} ربح! 😇", ['{PLAYER}' => '</b>' . $this->getUserMention('host') . '<b>']) . '</b>' . PHP_EOL;
                 $gameOutput .= Emoji::whiteFlag() . ' <b>' . __("استسلم {PLAYER}! 🤕", ['{PLAYER}' => '</b>' . $this->getUserMention('guest') . '<b>']) . '</b>' . PHP_EOL;
@@ -164,7 +164,7 @@ class Checkers extends Game
                 }
             }
 
-            Utilities::isDebugPrintEnabled() && Utilities::debugPrint($this->getCurrentUserMention() . ' voted to surrender');
+            Utilities::isDebugPrintEnabled() && Utilities::debugPrint($this->getCurrentUserMention() . ' صوتوا على الاستسلام');
             $data['vote']['guest']['surrender'] = true;
 
             if ($this->saveData($this->data)) {
@@ -387,7 +387,7 @@ class Checkers extends Game
             $data['vote']['host']['draw'] = true;
 
             if ($this->saveData($this->data)) {
-                Utilities::isDebugPrintEnabled() && Utilities::debugPrint($this->getCurrentUserMention() . ' voted to draw');
+                Utilities::isDebugPrintEnabled() && Utilities::debugPrint($this->getCurrentUserMention() . ' صوتوا للرسم');
 
                 return $this->gameAction();
             }
@@ -397,7 +397,7 @@ class Checkers extends Game
             $data['vote']['guest']['draw'] = true;
 
             if ($this->saveData($this->data)) {
-                Utilities::isDebugPrintEnabled() && Utilities::debugPrint($this->getCurrentUserMention() . ' voted to draw');
+                Utilities::isDebugPrintEnabled() && Utilities::debugPrint($this->getCurrentUserMention() . ' صوتوا للرسم');
 
                 return $this->gameAction();
             }
