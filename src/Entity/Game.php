@@ -474,7 +474,7 @@ class Game
         $this->data['game_data'] = null;
 
         if ($this->saveData($this->data)) {
-            return $this->editMessage(__('{PLAYER_HOST} ينتظر انضمام الخصم ...', ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __('اضغط على الزر {BUTTON} للانضمام.', ['{BUTTON}' => '<b>\'' . __('Join') . '\'</b>']), $this->getReplyMarkup('lobby'));
+            return $this->editMessage(__('{PLAYER_HOST} ينتظر انضمام الخصم ...', ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __('اضغط على الزر {BUTTON} للانضمام.', ['{BUTTON}' => '<b>\'' . __('أنظم') . '\'</b>']), $this->getReplyMarkup('lobby'));
         }
 
         throw new StorageException();
