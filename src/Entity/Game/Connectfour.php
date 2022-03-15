@@ -42,7 +42,7 @@ class Connectfour extends Game
      *
      * @var string
      */
-    protected static $description = 'Connect Four is a connection game in which the players take turns dropping colored discs from the top into a seven-column, six-row vertically suspended grid.';
+    protected static $description = 'الأربعة تربح : هي لعبة اتصال يتناوب فيها اللاعبون على إسقاط الأقراص الملونة من الأعلى إلى شبكة معلقة رأسيًا مكونة من سبعة أعمدة وستة صفوف.😇';
 
     /**
      * Game thumbnail image
@@ -84,7 +84,7 @@ class Connectfour extends Game
     protected function gameAction(): ServerResponse
     {
         if ($this->getCurrentUserId() !== $this->getUserId('host') && $this->getCurrentUserId() !== $this->getUserId('guest')) {
-            return $this->answerCallbackQuery(__("You're not in this game!"), true);
+            return $this->answerCallbackQuery(__("أنت لست في هذه اللعبة!"), true);
         }
 
         $data = &$this->data['game_data'];
@@ -112,17 +112,17 @@ class Connectfour extends Game
             $data['current_turn'] = 'X';
             $data['board'] = static::$board;
 
-            Utilities::debugPrint('Game initialization');
+            Utilities::debugPrint('تهيئة اللعبة');
         } elseif (!isset($args)) {
-            Utilities::debugPrint('No move data received');
+            Utilities::debugPrint('لم يتم استلام بيانات النقل');
         }
 
         if (isset($data['current_turn']) && $data['current_turn'] == 'E') {
-            return $this->answerCallbackQuery(__("This game has ended!", true));
+            return $this->answerCallbackQuery(__("هذه اللعبة قد انتهت!", true));
         }
 
         if ($this->getCurrentUserId() !== $this->getUserId($data['settings'][$data['current_turn']]) && $command !== 'start') {
-            return $this->answerCallbackQuery(__("It's not your turn!"), true);
+            return $this->answerCallbackQuery(__("ليس دورك!"), true);
         }
 
         $this->max_y = count($data['board']);
@@ -146,12 +146,12 @@ class Connectfour extends Game
                     }
 
                     if ($y === 0) {
-                        return $this->answerCallbackQuery(__("Invalid move!"), true);
+                        return $this->answerCallbackQuery(__("خطوة غير صحيحة!"), true);
                     }
                 } else {
                     Utilities::debugPrint('Invalid move data: ' . ($args[0]) . ' - ' . ($y));
 
-                    return $this->answerCallbackQuery(__("Invalid move!"), true);
+                    return $this->answerCallbackQuery(__("خطوة غير صحيحة!"), true);
                 }
             }
 
@@ -162,9 +162,9 @@ class Connectfour extends Game
         $gameOutput = '';
 
         if (!empty($isOver) && in_array($isOver, ['X', 'O'])) {
-            $gameOutput = Emoji::trophy() . ' <b>' . __("{PLAYER} won!", ['{PLAYER}' => '</b>' . $this->getUserMention($data['settings'][$isOver]) . '<b>']) . '</b>';
+            $gameOutput = Emoji::trophy() . ' <b>' . __("فاز {PLAYER}!", ['{PLAYER}' => '</b>' . $this->getUserMention($data['settings'][$isOver]) . '<b>']) . '</b>';
         } elseif ($isOver == 'T') {
-            $gameOutput = Emoji::chequeredFlag() . ' <b>' . __("Game ended with a draw!") . '</b>';
+            $gameOutput = Emoji::chequeredFlag() . ' <b>' . __("انتهت اللعبة بالتعادل!") . '</b>';
         }
 
         if (!empty($isOver) && in_array($isOver, ['X', 'O', 'T'])) {
