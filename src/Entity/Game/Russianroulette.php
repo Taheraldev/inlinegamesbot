@@ -163,11 +163,11 @@ class Russianroulette extends Game
                 $hit = $arg;
 
                 if ($this->saveData($this->data)) {
-                    return $this->editMessage($gameOutput . PHP_EOL . PHP_EOL . __('{PLAYER_HOST} is waiting for opponent to join...', ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __('Press {BUTTON} button to join.', ['{BUTTON}' => '<b>\'' . __('Join') . '\'</b>']), $this->customGameKeyboard($hit));
+                    return $this->editMessage($gameOutput . PHP_EOL . PHP_EOL . __('{PLAYER_HOST} ينتظر انضمام الخصم ...', ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __('اضغط على الزر {BUTTON} للانضمام.', ['{BUTTON}' => '<b>\'' . __('أنظم') . '\'</b>']), $this->customGameKeyboard($hit));
                 }
             }
 
-            $gameOutput = Emoji::smilingFaceWithSunglasses() . ' <b>' . __("{PLAYER} survived!", ['{PLAYER}' => '</b>' . $this->getCurrentUserMention() . '<b>']) . '</b>' . PHP_EOL;
+            $gameOutput = Emoji::smilingFaceWithSunglasses() . ' <b>' . __("نجا {PLAYER}!", ['{PLAYER}' => '</b>' . $this->getCurrentUserMention() . '<b>']) . '</b>' . PHP_EOL;
 
             if ($data['current_turn'] == 'X') {
                 $data['current_turn'] = 'O';
