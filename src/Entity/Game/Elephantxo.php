@@ -34,7 +34,7 @@ class Elephantxo extends Tictactoe
      *
      * @var string
      */
-    protected static $description = 'Elephant XO is a game for two players, X and O, who take turns marking the spaces in a 8×8 grid.';
+    protected static $description = 'إيليفنت ⭕️❌ :هي لعبة للاعبين ، X و O ، يتناوبان على تحديد المسافات في شبكة 8 × 8.';
 
     /**
      * Game thumbnail image
