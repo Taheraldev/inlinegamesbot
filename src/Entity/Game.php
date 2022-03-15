@@ -156,7 +156,7 @@ class Game
     {
         $game_id = $this->manager->getId();
         if (class_exists($storage_class = $this->manager->getStorage()) && $this->data === null) {
-            Utilities::debugPrint('Reading game data from the database');
+            Utilities::debugPrint('قراءة بيانات اللعبة من قاعدة البيانات');
 
             /** @var File $storage_class */
             $this->data = $storage_class::selectFromGame($game_id);
@@ -461,7 +461,7 @@ class Game
     protected function newAction(): ServerResponse
     {
         if ($this->getUser('host')) {
-            return $this->answerCallbackQuery(__('This game is already created!'), true);
+            return $this->answerCallbackQuery(__('تم إنشاء هذه اللعبة بالفعل!'), true);
         }
 
         $this->data['players']['host'] = (array) $this->getCurrentUser(true);
@@ -494,7 +494,7 @@ class Game
         } elseif ($chosen_inline_result = $this->manager->getUpdate()->getChosenInlineResult()) {
             $update_object = $chosen_inline_result;
         } else {
-            throw new BotException('No current user found!?');
+            throw new BotException('لم يتم العثور على مستخدم حالي !؟');
         }
 
         $user = $update_object->getFrom();
@@ -638,7 +638,7 @@ class Game
         }
 
         if ($this->getUser('guest') && $this->getCurrentUserId() === $this->getUserId('guest')) {
-            Utilities::isDebugPrintEnabled() && Utilities::debugPrint('Quit (guest): ' . $this->getCurrentUserMention());
+            Utilities::isDebugPrintEnabled() && Utilities::debugPrint('خروج (ضيف): ' . $this->getCurrentUserMention());
 
             $currentUserMention = $this->getCurrentUserMention();
 
@@ -976,7 +976,7 @@ class Game
             $inline_keyboard[] = [
                 new InlineKeyboardButton(
                     [
-                        'text'          => 'DEBUG: ' . 'Restart',
+                        'text'          => 'DEBUG: ' . 'اعادة تشغيل',
                         'callback_data' => static::getCode() . ';start',
                     ]
                 ),
