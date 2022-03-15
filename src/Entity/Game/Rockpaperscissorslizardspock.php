@@ -32,14 +32,14 @@ class Rockpaperscissorslizardspock extends Rockpaperscissors
      *
      * @var string
      */
-    protected static $title = 'Rock-Paper-Scissors-Lizard-Spock';
+    protected static $title = 'حجر، ورقة، مقص، سحلية، رجل الفضاء';
 
     /**
      * Game description
      *
      * @var string
      */
-    protected static $description = 'Rock-paper-scissors-lizard-spock is a game in which each player simultaneously forms one of five shapes with an outstretched hand.';
+    protected static $description = 'حجر، ورقة، مقص، سحلية، رجل الفضاء👊🏻: هي لعبة يقوم فيها كل لاعب بتشكيل واحد من خمسة أشكال في نفس الوقت بيد ممدودة.';
 
     /**
      * Game thumbnail image
@@ -219,7 +219,7 @@ class Rockpaperscissorslizardspock extends Rockpaperscissors
             $inline_keyboard[] = [
                 new InlineKeyboardButton(
                     [
-                        'text'          => __('Play again!'),
+                        'text'          => __('العب مرة أخرى!'),
                         'callback_data' => self::getCode() . ';start',
                     ]
                 ),
@@ -230,7 +230,7 @@ class Rockpaperscissorslizardspock extends Rockpaperscissors
             $inline_keyboard[] = [
                 new InlineKeyboardButton(
                     [
-                        'text'          => 'DEBUG: ' . 'Restart',
+                        'text'          => 'DEBUG: ' . 'اعادة تشغيل',
                         'callback_data' => self::getCode() . ';start',
                     ]
                 ),
@@ -240,13 +240,13 @@ class Rockpaperscissorslizardspock extends Rockpaperscissors
         $inline_keyboard[] = [
             new InlineKeyboardButton(
                 [
-                    'text'          => __('Quit'),
+                    'text'          => __('مغادرة'),
                     'callback_data' => self::getCode() . ';quit',
                 ]
             ),
             new InlineKeyboardButton(
                 [
-                    'text'          => __('Kick'),
+                    'text'          => __('ركل'),
                     'callback_data' => self::getCode() . ';kick',
                 ]
             ),
