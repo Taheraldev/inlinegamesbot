@@ -37,14 +37,14 @@ class Russianroulette extends Game
      *
      * @var string
      */
-    protected static $title = 'الروليت الروسية';
+    protected static $title = 'Russian Roulette';
 
     /**
      * Game description
      *
      * @var string
      */
-    protected static $description = 'الروليت الروسي : هي لعبة حظ ، حيث يضع اللاعب جولة واحدة في مسدس ، ويدور الأسطوانة ، ويضع الكمامة على رأسه ، ويسحب الزناد.😬';
+    protected static $description = 'Russian roulette is a game of chance in which a player places a single round in a revolver, spins the cylinder, places the muzzle against their head, and pulls the trigger.';
 
     /**
      * Game thumbnail image
@@ -72,7 +72,7 @@ class Russianroulette extends Game
     protected function gameAction(): ServerResponse
     {
         if ($this->getCurrentUserId() !== $this->getUserId('host') && $this->getCurrentUserId() !== $this->getUserId('guest')) {
-            return $this->answerCallbackQuery(__("أنت لست في هذه اللعبة!"), true);
+            return $this->answerCallbackQuery(__("You're not in this game!"), true);
         }
 
         $data = &$this->data['game_data'];
@@ -100,17 +100,17 @@ class Russianroulette extends Game
             /** @noinspection RandomApiMigrationInspection */
             $data['cylinder'][mt_rand(0, 5)] = 'X';
 
-            Utilities::debugPrint('تهيئة اللعبة');
+            Utilities::debugPrint('Game initialization');
         } elseif ($arg === null) {
-            Utilities::debugPrint('لم يتم استلام بيانات النقل');
+            Utilities::debugPrint('No move data received');
         }
 
         if (isset($data['current_turn']) && $data['current_turn'] == 'E') {
-            return $this->answerCallbackQuery(__("هذه اللعبة قد انتهت!"), true);
+            return $this->answerCallbackQuery(__("This game has ended!"), true);
         }
 
         if ($this->getCurrentUserId() !== $this->getUserId($data['settings'][$data['current_turn']]) && $command !== 'start') {
-            return $this->answerCallbackQuery(__("ليس دورك!"), true);
+            return $this->answerCallbackQuery(__("It's not your turn!"), true);
         }
 
         $hit = '';
@@ -122,19 +122,19 @@ class Russianroulette extends Game
             }
 
             if (!isset($data['cylinder'][$arg - 1])) {
-                Utilities::debugPrint('تم تلقي بيانات نقل غير صالحة: ' . $arg);
+                Utilities::debugPrint('Bad move data received: ' . $arg);
 
-                return $this->answerCallbackQuery(__("خطوة غير صحيحة!"), true);
+                return $this->answerCallbackQuery(__("Invalid move!"), true);
             }
 
-            Utilities::debugPrint('الغرفة المختارة: ' . $arg);
+            Utilities::debugPrint('Chamber selected: ' . $arg);
 
             if ($data['cylinder'][$arg - 1] === 'X') {
-                Utilities::debugPrint('الغرفة تحتوي على رصاصة ، واللاعب ميت');
+                Utilities::debugPrint('Chamber contains bullet, player is dead');
 
                 if ($data['current_turn'] == 'X') {
-                    $gameOutput = Emoji::skull() . ' <b>' . __("مات {PLAYER}! (مطرود)", ['{PLAYER}' => '</b>' . $this->getUserMention($data['settings']['X']) . '<b>']) . '</b>' . PHP_EOL;
-                    $gameOutput .= Emoji::trophy() . ' <b>' . __("{PLAYER} فاز!", ['{PLAYER}' => '</b>' . $this->getUserMention($data['settings']['O']) . '<b>']) . '</b>' . PHP_EOL;
+                    $gameOutput = Emoji::skull() . ' <b>' . __("{PLAYER} died! (kicked)", ['{PLAYER}' => '</b>' . $this->getUserMention($data['settings']['X']) . '<b>']) . '</b>' . PHP_EOL;
+                    $gameOutput .= Emoji::trophy() . ' <b>' . __("{PLAYER} won!", ['{PLAYER}' => '</b>' . $this->getUserMention($data['settings']['O']) . '<b>']) . '</b>' . PHP_EOL;
 
 
                     if ($data['settings']['X'] === 'host') {
@@ -163,7 +163,7 @@ class Russianroulette extends Game
                 $hit = $arg;
 
                 if ($this->saveData($this->data)) {
-                    return $this->editMessage($gameOutput . PHP_EOL . PHP_EOL . __('{PLAYER_HOST} ينتظر انضمام الخصم ...', ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __('اضغط على الزر {BUTTON} للانضمام.', ['{BUTTON}' => '<b>\'' . __('أنظم') . '\'</b>']), $this->customGameKeyboard($hit));
+                    return $this->editMessage($gameOutput . PHP_EOL . PHP_EOL . __('{PLAYER_HOST} is waiting for opponent to join...', ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __('Press {BUTTON} button to join.', ['{BUTTON}' => '<b>\'' . __('Join') . '\'</b>']), $this->customGameKeyboard($hit));
                 }
             }
 
@@ -294,13 +294,13 @@ class Russianroulette extends Game
             $inline_keyboard[] = [
                 new InlineKeyboardButton(
                     [
-                        'text'          => __('مغادرة'),
+                        'text'          => __('Quit'),
                         'callback_data' => self::getCode() . ';quit',
                     ]
                 ),
                 new InlineKeyboardButton(
                     [
-                        'text'          => __('طرد'),
+                        'text'          => __('Kick'),
                         'callback_data' => self::getCode() . ';kick',
                     ]
                 ),
@@ -309,13 +309,13 @@ class Russianroulette extends Game
             $inline_keyboard[] = [
                 new InlineKeyboardButton(
                     [
-                        'text'          => __('مغادرة'),
+                        'text'          => __('Quit'),
                         'callback_data' => self::getCode() . ';quit',
                     ]
                 ),
                 new InlineKeyboardButton(
                     [
-                        'text'          => __('أنظم'),
+                        'text'          => __('Join'),
                         'callback_data' => self::getCode() . ';join',
                     ]
                 ),
@@ -326,7 +326,7 @@ class Russianroulette extends Game
             $inline_keyboard[] = [
                 new InlineKeyboardButton(
                     [
-                        'text'          => 'DEBUG: ' . 'اعادة تشغيل',
+                        'text'          => 'DEBUG: ' . 'Restart',
                         'callback_data' => self::getCode() . ';start',
                     ]
                 ),
