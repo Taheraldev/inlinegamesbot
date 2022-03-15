@@ -134,7 +134,7 @@ class Russianroulette extends Game
 
                 if ($data['current_turn'] == 'X') {
                     $gameOutput = Emoji::skull() . ' <b>' . __("مات {PLAYER}! (مطرود)", ['{PLAYER}' => '</b>' . $this->getUserMention($data['settings']['X']) . '<b>']) . '</b>' . PHP_EOL;
-                    $gameOutput .= Emoji::trophy() . ' <b>' . __("مات {PLAYER}! (مطرود)' => '</b>' . $this->getUserMention($data['settings']['O']) . '<b>']) . '</b>' . PHP_EOL;
+                    $gameOutput .= Emoji::trophy() . ' <b>' . __("{PLAYER} فاز!", ['{PLAYER}' => '</b>' . $this->getUserMention($data['settings']['O']) . '<b>']) . '</b>' . PHP_EOL;
 
 
                     if ($data['settings']['X'] === 'host') {
