@@ -37,7 +37,7 @@ class Checkers extends Game
      *
      * @var string
      */
-    protected static $title = 'Checkers';
+    protected static $title = 'لعبة الداما';
 
     /**
      * Game name
