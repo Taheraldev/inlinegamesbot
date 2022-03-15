@@ -558,7 +558,7 @@ class Checkers extends Game
                             } elseif ($this->getCurrentUserId() === $this->getUserId($data['settings'][$data['current_turn']]) && strpos($data['board'][$args[0]][$args[1]], $data['current_turn']) !== false) {
                                 $data['current_selection'] = $args[0] . $args[1];
                             } else {
-                                return $this->answerCallbackQuery(__("Invalid move!"), true);
+                                return $this->answerCallbackQuery(__("تحرك غير صحيح!"), true);
                             }
                         }
                     }
