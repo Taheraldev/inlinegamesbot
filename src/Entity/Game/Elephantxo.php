@@ -27,7 +27,7 @@ class Elephantxo extends Tictactoe
      *
      * @var string
      */
-    protected static $title = 'Elephant XO';
+    protected static $title = 'إيليفنت x o ';
 
     /**
      * Game description
