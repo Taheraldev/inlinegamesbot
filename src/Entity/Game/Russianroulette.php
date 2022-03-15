@@ -326,7 +326,7 @@ class Russianroulette extends Game
             $inline_keyboard[] = [
                 new InlineKeyboardButton(
                     [
-                        'text'          => 'DEBUG: ' . 'Restart',
+                        'text'          => 'DEBUG: ' . 'اعادة تشغيل',
                         'callback_data' => self::getCode() . ';start',
                     ]
                 ),
