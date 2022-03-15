@@ -36,7 +36,7 @@ class Poolcheckers extends Checkers
      *
      * @var string
      */
-    protected static $title = 'Pool Checkers';
+    protected static $title = 'لعبة الداما تجمع';
 
     /**
      * Game name
