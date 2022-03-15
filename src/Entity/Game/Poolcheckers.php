@@ -43,7 +43,7 @@ class Poolcheckers extends Checkers
      *
      * @var string
      */
-    protected static $title_extra = '(flying kings, men can capture backwards)';
+    protected static $title_extra = '(الملوك الطائرون ، يمكن للرجال أسرهم للخلف)';
 
     /**
      * Order on the games list
@@ -77,13 +77,13 @@ class Poolcheckers extends Checkers
     protected function drawAction()
     {
         if ($this->getCurrentUserId() !== $this->getUserId('host') && $this->getCurrentUserId() !== $this->getUserId('guest')) {
-            return $this->answerCallbackQuery(__("You're not in this game!"), true);
+            return $this->answerCallbackQuery(__("أنت لست في هذه اللعبة!"), true);
         }
 
         $data = &$this->data['game_data'];
 
         if ((isset($data['current_turn']) && $data['current_turn'] == 'E') || $data['board'] === null) {
-            return $this->answerCallbackQuery(__("This game has ended!", true));
+            return $this->answerCallbackQuery(__("هذه اللعبة قد انتهت!", true));
         }
 
         $this->defineSymbols();
@@ -105,7 +105,7 @@ class Poolcheckers extends Checkers
             $data['vote']['guest']['draw'] = true;
 
             if ($this->saveData($this->data)) {
-                Utilities::isDebugPrintEnabled() && Utilities::debugPrint($this->getCurrentUserMention() . ' voted to draw');
+                Utilities::isDebugPrintEnabled() && Utilities::debugPrint($this->getCurrentUserMention() . ' صوتوا للرسم');
 
                 return $this->gameAction();
             }
@@ -115,7 +115,7 @@ class Poolcheckers extends Checkers
             return $this->answerCallbackQuery();
         }
 
-        return $this->answerCallbackQuery(__("You already voted!"), true);
+        return $this->answerCallbackQuery(__("لقد قمت بالتصويت مسبقا!"), true);
     }
 
     /**
@@ -130,7 +130,7 @@ class Poolcheckers extends Checkers
     protected function gameAction(): ServerResponse
     {
         if ($this->getCurrentUserId() !== $this->getUserId('host') && $this->getCurrentUserId() !== $this->getUserId('guest')) {
-            return $this->answerCallbackQuery(__("You're not in this game!"), true);
+            return $this->answerCallbackQuery(__("أنت لست في هذه اللعبة!"), true);
         }
 
         $data = &$this->data['game_data'];
@@ -167,13 +167,13 @@ class Poolcheckers extends Checkers
 
             $data['board'] = static::$board;
 
-            Utilities::debugPrint('Game initialization');
+            Utilities::debugPrint('تهيئة اللعبة');
         } elseif ($args === null && $command === 'game') {
-            Utilities::debugPrint('No move data received');
+            Utilities::debugPrint('لم يتم استلام بيانات النقل');
         }
 
         if (isset($data['current_turn']) && $data['current_turn'] == 'E') {
-            return $this->answerCallbackQuery(__("This game has ended!", true));
+            return $this->answerCallbackQuery(__("هذه اللعبة قد انتهت!", true));
         }
 
         $this->max_y = count($data['board']);
@@ -194,7 +194,7 @@ class Poolcheckers extends Checkers
                         if ($data['current_selection_lock'] == false) {
                             return $this->answerCallbackQuery();
                         } else {
-                            return $this->answerCallbackQuery(__("You must make a jump when possible!"), true);
+                            return $this->answerCallbackQuery(__("يجب عليك القفز عندما يكون ذلك ممكنا!"), true);
                         }
                     } else {
                         Utilities::debugPrint('Listing possible moves');
@@ -217,7 +217,7 @@ class Poolcheckers extends Checkers
 
                         if (in_array($args[0] . $args[1], $possibleMoves['valid_moves']) && isset($data['board'][$args[0]][$args[1]]) && $data['board'][$args[0]][$args[1]] == '') {
                             if ($forcedJump) {
-                                return $this->answerCallbackQuery(__("You must make a jump when possible!"), true);
+                                return $this->answerCallbackQuery(__("يجب عليك القفز عندما يكون ذلك ممكنا!"), true);
                             }
 
                             $data['board'][$args[0]][$args[1]] = $data['board'][$data['current_selection'][0]][$data['current_selection'][1]];
@@ -268,7 +268,7 @@ class Poolcheckers extends Checkers
                             }
                         } else {
                             if ($data['current_selection_lock'] == true) {
-                                return $this->answerCallbackQuery(__("You must make a jump when possible!"), true);
+                                return $this->answerCallbackQuery(__("يجب عليك القفز عندما يكون ذلك ممكنا!"), true);
                             } elseif ($this->getCurrentUserId() === $this->getUserId($data['settings'][$data['current_turn']]) && strpos($data['board'][$args[0]][$args[1]], $data['current_turn']) !== false) {
                                 $data['current_selection'] = $args[0] . $args[1];
                             } else {
@@ -280,17 +280,17 @@ class Poolcheckers extends Checkers
                     if ($this->getCurrentUserId() == $this->getUserId($data['settings'][$data['current_turn']]) && strpos($data['board'][$args[0]][$args[1]], $data['current_turn']) !== false) {
                         $data['current_selection'] = $args[0] . $args[1];
                     } elseif ($command === 'game') {
-                        return $this->answerCallbackQuery(__("Invalid selection!"), true);
+                        return $this->answerCallbackQuery(__("اختيار غير صحيح!"), true);
                     } else {
-                        return $this->answerCallbackQuery(__("Invalid move!"), true);
+                        return $this->answerCallbackQuery(__("خطوة غير صحيحة!"), true);
                     }
                 }
             } else {
-                return $this->answerCallbackQuery(__("It's not your turn!"), true);
+                return $this->answerCallbackQuery(__("ليس دورك!"), true);
             }
         }
 
-        Utilities::debugPrint('Checking if game is over');
+        Utilities::debugPrint('التحقق مما إذا كانت اللعبة قد انتهت');
 
         $isOver = $this->isGameOver($data['board']);
 
@@ -301,41 +301,41 @@ class Poolcheckers extends Checkers
         $gameOutput = '';
         if (in_array($isOver, ['X', 'O', 'T']) || $moveLimitReached) {
             if ($isOver == 'X' || $piecesLeft['X'] > $piecesLeft['O']) {
-                $gameOutput .= Emoji::trophy() . ' <b>' . __("{PLAYER} won!", ['{PLAYER}' => '</b>' . $this->getUserMention('host') . '<b>']) . '</b>';
+                $gameOutput .= Emoji::trophy() . ' <b>' . __("فاز {PLAYER}!", ['{PLAYER}' => '</b>' . $this->getUserMention('host') . '<b>']) . '</b>';
             } elseif ($isOver == 'O' || $piecesLeft['O'] > $piecesLeft['X']) {
-                $gameOutput .= Emoji::trophy() . ' <b>' . __("{PLAYER} won!", ['{PLAYER}' => '</b>' . $this->getUserMention('guest') . '<b>']) . '</b>';
+                $gameOutput .= Emoji::trophy() . ' <b>' . __("فاز {PLAYER}!", ['{PLAYER}' => '</b>' . $this->getUserMention('guest') . '<b>']) . '</b>';
             } else {
-                $gameOutput .= Emoji::chequeredFlag() . ' <b>' . __("Game ended with a draw!") . '</b>';
+                $gameOutput .= Emoji::chequeredFlag() . ' <b>' . __("انتهت اللعبة بالتعادل!") . '</b>';
             }
 
             $data['current_turn'] = 'E';
             $data['current_selection'] = '';
 
-            Utilities::debugPrint('Game ended');
+            Utilities::debugPrint('انتهت اللعبة');
         } else {
             $this->selection = $data['current_selection'];
 
             if ($data['vote']['host']['draw']) {
-                $gameOutput .= '<b>' . __("{PLAYER} voted to draw!", ['{PLAYER}' => '</b>' . $this->getUserMention('host') . '<b>']) . '</b>' . PHP_EOL . PHP_EOL;
+                $gameOutput .= '<b>' . __("صوَّت {PLAYER} بالتعادل!", ['{PLAYER}' => '</b>' . $this->getUserMention('host') . '<b>']) . '</b>' . PHP_EOL . PHP_EOL;
             } elseif ($data['vote']['guest']['draw']) {
-                $gameOutput .= '<b>' . __("{PLAYER} voted to draw!", ['{PLAYER}' => '</b>' . $this->getUserMention('guest') . '<b>']) . '</b>' . PHP_EOL . PHP_EOL;
+                $gameOutput .= '<b>' . __("صوَّت {PLAYER} بالتعادل!", ['{PLAYER}' => '</b>' . $this->getUserMention('guest') . '<b>']) . '</b>' . PHP_EOL . PHP_EOL;
             }
 
             $gameOutput .= Emoji::playButton() . ' ' . $this->getUserMention($data['settings'][$data['current_turn']]) . ' (' . $this->symbols[$data['current_turn']] . ')';
 
             if ($data['current_selection'] == '') {
-                $gameOutput .= "\n" . __("(Select the piece you want to move)");
+                $gameOutput .= "\n" . __("(حدد القطعة التي تريد نقلها)");
             } else {
-                $gameOutput .= "\n" . __("(Selected: {COORDINATES})", ['{COORDINATES}' => ($data['current_selection'][0] + 1) . '-' . ($data['current_selection'][1] + 1)]);
+                $gameOutput .= "\n" . __("(تحديد: {COORDINATES})", ['{COORDINATES}' => ($data['current_selection'][0] + 1) . '-' . ($data['current_selection'][1] + 1)]);
 
                 if ($data['current_selection_lock'] == false) {
-                    $gameOutput .= "\n" . __("(Make your move or select different piece)");
+                    $gameOutput .= "\n" . __("(قم بحركتك أو حدد قطعة مختلفة)");
                 } else {
-                    $gameOutput .= "\n" . __("(Your move must continue)");
+                    $gameOutput .= "\n" . __("(يجب أن تستمر حركتك)");
                 }
             }
 
-            Utilities::debugPrint('Game is still in progress');
+            Utilities::debugPrint('اللعبة لا تزال في التقدم');
         }
 
         if ($this->saveData($this->data)) {
@@ -787,7 +787,7 @@ class Poolcheckers extends Checkers
             $inline_keyboard[] = [
                 new InlineKeyboardButton(
                     [
-                        'text'          => __('Play again!'),
+                        'text'          => __('العب مرة أخرى!'),
                         'callback_data' => self::getCode() . ';start',
                     ]
                 ),
@@ -797,7 +797,7 @@ class Poolcheckers extends Checkers
                 $inline_keyboard[] = [
                     new InlineKeyboardButton(
                         [
-                            'text'          => __('Surrender'),
+                            'text'          => __('يستسلم'),
                             'callback_data' => self::getCode() . ';forfeit',
                         ]
                     ),
@@ -806,7 +806,7 @@ class Poolcheckers extends Checkers
                 $inline_keyboard[] = [
                     new InlineKeyboardButton(
                         [
-                            'text'          => __('Vote to draw'),
+                            'text'          => __('التصويت للرسم'),
                             'callback_data' => self::getCode() . ';draw',
                         ]
                     ),
@@ -817,13 +817,13 @@ class Poolcheckers extends Checkers
         $inline_keyboard[] = [
             new InlineKeyboardButton(
                 [
-                    'text'          => __('Quit'),
+                    'text'          => __('مغادرة'),
                     'callback_data' => self::getCode() . ';quit',
                 ]
             ),
             new InlineKeyboardButton(
                 [
-                    'text'          => __('Kick'),
+                    'text'          => __('ركل'),
                     'callback_data' => self::getCode() . ';kick',
                 ]
             ),
@@ -835,19 +835,19 @@ class Poolcheckers extends Checkers
             $inline_keyboard[] = [
                 new InlineKeyboardButton(
                     [
-                        'text'          => 'DEBUG: ' . 'Restart',
+                        'text'          => 'DEBUG: ' . 'اعادة تشغيل',
                         'callback_data' => self::getCode() . ';start',
                     ]
                 ),
                 new InlineKeyboardButton(
                     [
-                        'text'          => 'DEBUG: ' . 'Surrender',
+                        'text'          => 'DEBUG: ' . 'يستسلم',
                         'callback_data' => self::getCode() . ';forfeit',
                     ]
                 ),
                 new InlineKeyboardButton(
                     [
-                        'text'          => 'DEBUG: ' . 'Draw',
+                        'text'          => 'DEBUG: ' . 'رسم',
                         'callback_data' => self::getCode() . ';draw',
                     ]
                 ),
