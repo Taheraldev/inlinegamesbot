@@ -110,9 +110,9 @@ class Tictactoe extends Game
             $data['current_turn'] = 'X';
             $data['board'] = static::$board;
 
-            Utilities::debugPrint('Game initialization');
+            Utilities::debugPrint('تهيئة اللعبة');
         } elseif ($args === null) {
-            Utilities::debugPrint('No move data received');
+            Utilities::debugPrint('لم يتم استلام بيانات النقل');
         }
 
         if (isset($data['current_turn']) && $data['current_turn'] == 'E') {
@@ -140,7 +140,7 @@ class Tictactoe extends Game
             } else {
                 Utilities::debugPrint('Invalid move data: ' . ($args[0]) . ' - ' . ($args[1]));
 
-                return $this->answerCallbackQuery(__("Invalid move!"), true);
+                return $this->answerCallbackQuery(__("تحرك غير صحيح!"), true);
             }
 
             Utilities::debugPrint($data['current_turn'] . ' placed at ' . ($args[1]) . ' - ' . ($args[0]));
