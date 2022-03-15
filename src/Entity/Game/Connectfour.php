@@ -35,7 +35,7 @@ class Connectfour extends Game
      *
      * @var string
      */
-    protected static $title = 'Connect Four';
+    protected static $title = 'الأربعة تربح';
 
     /**
      * Game description
