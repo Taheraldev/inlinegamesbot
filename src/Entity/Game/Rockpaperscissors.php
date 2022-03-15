@@ -37,14 +37,14 @@ class Rockpaperscissors extends Game
      *
      * @var string
      */
-    protected static $title = 'Rock-Paper-Scissors';
+    protected static $title = 'قرعة 📝';
 
     /**
      * Game description
      *
      * @var string
      */
-    protected static $description = 'Rock-paper-scissors is game in which each player simultaneously forms one of three shapes with an outstretched hand.';
+    protected static $description = 'لعبة القرعة 📝: هي لعبة يقوم فيها كل لاعب في نفس الوقت بتشكيل واحد من ثلاثة أشكال بيد ممدودة.🧮';
 
     /**
      * Game thumbnail image
@@ -72,7 +72,7 @@ class Rockpaperscissors extends Game
     protected function gameAction(): ServerResponse
     {
         if ($this->getCurrentUserId() !== $this->getUserId('host') && $this->getCurrentUserId() !== $this->getUserId('guest')) {
-            return $this->answerCallbackQuery(__("You're not in this game!"), true);
+            return $this->answerCallbackQuery(__("أنت لست في هذه اللعبة!"), true);
         }
 
         $data = &$this->data['game_data'];
@@ -94,13 +94,13 @@ class Rockpaperscissors extends Game
             $data['round'] = 1;
             $data['current_turn'] = '';
 
-            Utilities::debugPrint('Game initialization');
+            Utilities::debugPrint('تهيئة اللعبة');
         } elseif ($arg === null) {
-            Utilities::debugPrint('No move data received');
+            Utilities::debugPrint('لم يتم استلام بيانات النقل');
         }
 
         if (isset($data['current_turn']) && $data['current_turn'] == 'E') {
-            return $this->answerCallbackQuery(__("This game has ended!"), true);
+            return $this->answerCallbackQuery(__("هذه اللعبة قد انتهت!"), true);
         }
 
         Utilities::debugPrint('Argument: ' . $arg);
@@ -117,9 +117,9 @@ class Rockpaperscissors extends Game
                     Utilities::isDebugPrintEnabled() && Utilities::debugPrint($this->getCurrentUserMention() . ' picked ' . $arg);
                 }
             } else {
-                Utilities::debugPrint('Invalid move data: ' . $arg);
+                Utilities::debugPrint('نقل البيانات غير صالح: ' . $arg);
 
-                return $this->answerCallbackQuery(__("Invalid move!"), true);
+                return $this->answerCallbackQuery(__("خطوة غير صحيحة!"), true);
             }
         }
 
@@ -137,13 +137,13 @@ class Rockpaperscissors extends Game
                 if ($isOver == 'X') {
                     $data['host_wins'] = $data['host_wins'] + 1;
 
-                    $gameOutput = Emoji::sportsMedal() . ' <b>' . __("{PLAYER} won this round!", ['{PLAYER}' => '</b>' . $this->getUserMention('host') . '<b>']) . '</b>' . PHP_EOL;
+                    $gameOutput = Emoji::sportsMedal() . ' <b>' . __("{PLAYER} فاز في هذه الجولة!", ['{PLAYER}' => '</b>' . $this->getUserMention('host') . '<b>']) . '</b>' . PHP_EOL;
                 } elseif ($isOver == 'O') {
                     $data['guest_wins'] = $data['guest_wins'] + 1;
 
-                    $gameOutput = Emoji::sportsMedal() . ' <b>' . __("{PLAYER} won this round!", ['{PLAYER}' => '</b>' . $this->getUserMention('guest') . '<b>']) . '</b>' . PHP_EOL;
+                    $gameOutput = Emoji::sportsMedal() . ' <b>' . __("{PLAYER} فاز في هذه الجولة!", ['{PLAYER}' => '</b>' . $this->getUserMention('guest') . '<b>']) . '</b>' . PHP_EOL;
                 } else {
-                    $gameOutput = Emoji::chequeredFlag() . ' <b>' . __("This round ended with a draw!") . '</b>' . PHP_EOL;
+                    $gameOutput = Emoji::chequeredFlag() . ' <b>' . __("انتهت هذه الجولة بالتعادل!") . '</b>' . PHP_EOL;
                 }
             }
 
@@ -152,20 +152,20 @@ class Rockpaperscissors extends Game
         }
 
         if (($data['host_wins'] >= 3 && $data['host_wins'] > $data['guest_wins']) || $data['host_wins'] >= $data['guest_wins'] + 3 || ($data['round'] > 5 && $data['host_wins'] > $data['guest_wins'])) {
-            $gameOutput = Emoji::trophy() . ' <b>' . __("{PLAYER} won the game!", ['{PLAYER}' => '</b>' . $this->getUserMention('host') . '<b>']) . '</b>';
+            $gameOutput = Emoji::trophy() . ' <b>' . __("فاز {PLAYER} باللعبة!", ['{PLAYER}' => '</b>' . $this->getUserMention('host') . '<b>']) . '</b>';
 
             $data['current_turn'] = 'E';
         } elseif (($data['guest_wins'] >= 3 && $data['guest_wins'] > $data['host_wins']) || $data['guest_wins'] >= $data['host_wins'] + 3 || ($data['round'] > 5 && $data['guest_wins'] > $data['host_wins'])) {
-            $gameOutput = Emoji::trophy() . ' <b>' . __("{PLAYER} won the game!", ['{PLAYER}' => '</b>' . $this->getUserMention('guest') . '<b>']) . '</b>';
+            $gameOutput = Emoji::trophy() . ' <b>' . __("فاز {PLAYER} باللعبة!", ['{PLAYER}' => '</b>' . $this->getUserMention('guest') . '<b>']) . '</b>';
 
             $data['current_turn'] = 'E';
         } else {
             $gameOutput .= '<b>' . __("Round {ROUND} - make your picks!", ['{ROUND}' => $data['round']]) . '</b>';
 
             if ($data['host_pick'] != '' && $data['guest_pick'] === '') {
-                $gameOutput .= PHP_EOL . '<b>' . __("Waiting for:") . '</b> ' . $this->getUserMention('guest');
+                $gameOutput .= PHP_EOL . '<b>' . __("انتظر ل:") . '</b> ' . $this->getUserMention('guest');
             } elseif ($data['guest_pick'] != '' && $data['host_pick'] === '') {
-                $gameOutput .= PHP_EOL . '<b>' . __("Waiting for:") . '</b> ' . $this->getUserMention('host');
+                $gameOutput .= PHP_EOL . '<b>' . __("انتظر ل:") . '</b> ' . $this->getUserMention('host');
             } else {
                 $data['host_pick'] = '';
                 $data['guest_pick'] = '';
@@ -274,7 +274,7 @@ class Rockpaperscissors extends Game
             $inline_keyboard[] = [
                 new InlineKeyboardButton(
                     [
-                        'text'          => __('Play again!'),
+                        'text'          => __('العب مرة أخرى!'),
                         'callback_data' => self::getCode() . ';start',
                     ]
                 ),
@@ -285,7 +285,7 @@ class Rockpaperscissors extends Game
             $inline_keyboard[] = [
                 new InlineKeyboardButton(
                     [
-                        'text'          => 'DEBUG: ' . 'Restart',
+                        'text'          => 'DEBUG: ' . 'اعادة تشغيل',
                         'callback_data' => self::getCode() . ';start',
                     ]
                 ),
@@ -295,13 +295,13 @@ class Rockpaperscissors extends Game
         $inline_keyboard[] = [
             new InlineKeyboardButton(
                 [
-                    'text'          => __('Quit'),
+                    'text'          => __('مغادرة'),
                     'callback_data' => self::getCode() . ';quit',
                 ]
             ),
             new InlineKeyboardButton(
                 [
-                    'text'          => __('Kick'),
+                    'text'          => __('ركل'),
                     'callback_data' => self::getCode() . ';kick',
                 ]
             ),
