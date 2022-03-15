@@ -188,7 +188,7 @@ class Game
 
 
         if (empty($this->data) && $action !== 'newAction') {
-            Utilities::debugPrint('Empty game data found with action expecting it to not be');
+            Utilities::debugPrint('تم العثور على بيانات فارغة للعبة مع توقع ألا تكون اللعبة كذلك😔');
             $action = "handleEmptyData";
         }
 
@@ -229,7 +229,7 @@ class Game
         Utilities::debugPrint('CRASHED (Game result is not a ServerResponse object!)');
 
         $this->saveData([]);
-        $this->editMessage('<i>' . __("This game session has crashed.") . '</i>' . PHP_EOL . '(ID: ' . $this->manager->getId() . ')', $this->getReplyMarkup('empty'));
+        $this->editMessage('<i>' . __("لقد تعطلت جلسة اللعبة هذه.😅") . '</i>' . PHP_EOL . '(ID: ' . $this->manager->getId() . ')', $this->getReplyMarkup('empty'));
 
         throw new BotException(
             Utilities::debugDump(
@@ -474,7 +474,7 @@ class Game
         $this->data['game_data'] = null;
 
         if ($this->saveData($this->data)) {
-            return $this->editMessage(__('{PLAYER_HOST} is waiting for opponent to join...', ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __('Press {BUTTON} button to join.', ['{BUTTON}' => '<b>\'' . __('Join') . '\'</b>']), $this->getReplyMarkup('lobby'));
+            return $this->editMessage(__('{PLAYER_HOST} ينتظر انضمام الخصم ...', ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __('اضغط على الزر {BUTTON} للانضمام.', ['{BUTTON}' => '<b>\'' . __('Join') . '\'</b>']), $this->getReplyMarkup('lobby'));
         }
 
         throw new StorageException();
@@ -542,7 +542,7 @@ class Game
             $this->data['players']['host'] = (array) $this->getCurrentUser(true);
 
             if ($this->saveData($this->data)) {
-                return $this->editMessage(__('{PLAYER_HOST} is waiting for opponent to join...', ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __('Press {BUTTON} button to join.', ['{BUTTON}' => '<b>\'' . __('Join') . '\'</b>']), $this->getReplyMarkup('lobby'));
+                return $this->editMessage(__('{PLAYER_HOST} ينتظر انضمام الخصم ...', ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __('اضغط على الزر {BUTTON} للانضمام.', ['{BUTTON}' => '<b>\'' . __('انضم') . '\'</b>']), $this->getReplyMarkup('lobby'));
             }
 
             throw new StorageException();
@@ -555,16 +555,16 @@ class Game
                 $this->data['players']['guest'] = (array) $this->getCurrentUser(true);
 
                 if ($this->saveData($this->data)) {
-                    return $this->editMessage(__('{PLAYER_GUEST} joined...', ['{PLAYER_GUEST}' => $this->getUserMention('guest')]) . PHP_EOL . __('Waiting for {PLAYER} to start...', ['{PLAYER}' => $this->getUserMention('host')]) . PHP_EOL . __('Press {BUTTON} button to start.', ['{BUTTON}' => '<b>\'' . __('Play') . '\'</b>']), $this->getReplyMarkup('pregame'));
+                    return $this->editMessage(__('انضم {PLAYER_GUEST} ...', ['{PLAYER_GUEST}' => $this->getUserMention('guest')]) . PHP_EOL . __('في انتظار {PLAYER} للبدء ...', ['{PLAYER}' => $this->getUserMention('host')]) . PHP_EOL . __('اضغط على الزر {BUTTON} للبدء.', ['{BUTTON}' => '<b>\'' . __('ألعب') . '\'</b>']), $this->getReplyMarkup('pregame'));
                 }
 
                 throw new StorageException();
             }
 
-            return $this->answerCallbackQuery(__("You cannot play with yourself!"), true);
+            return $this->answerCallbackQuery(__("لا يمكنك اللعب مع نفسك!"), true);
         }
 
-        return $this->answerCallbackQuery(__("This game is full!"));
+        return $this->answerCallbackQuery(__("هذه اللعبة ممتلئة!"));
     }
 
     /**
@@ -607,7 +607,7 @@ class Game
     protected function quitAction(): ServerResponse
     {
         if ($this->getCurrentUserId() !== $this->getUserId('host') && $this->getCurrentUserId() !== $this->getUserId('guest')) {
-            return $this->answerCallbackQuery(__("You're not in this game!"), true);
+            return $this->answerCallbackQuery(__("أنت لست في هذه اللعبة!😏"), true);
         }
 
         if ($this->getUser('host') && $this->getCurrentUserId() === $this->getUserId('host')) {
@@ -620,7 +620,7 @@ class Game
                 $this->data['players']['guest'] = null;
 
                 if ($this->saveData($this->data)) {
-                    return $this->editMessage(__('{PLAYER} quit...', ['{PLAYER}' => $currentUserMention]) . PHP_EOL . __("{PLAYER_HOST} is now the host.", ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __("{PLAYER_HOST} is waiting for opponent to join...", ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __("Press {BUTTON} button to join.", ['{BUTTON}' => '<b>\'' . __('Join') . '\'</b>']), $this->getReplyMarkup('lobby'));
+                    return $this->editMessage(__('تم إنهاء {PLAYER} ...😅', ['{PLAYER}' => $currentUserMention]) . PHP_EOL . __("{PLAYER_HOST} هو المضيف الآن.", ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __("{PLAYER_HOST} ينتظر انضمام الخصم ...😒", ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __("اضغط على الزر {BUTTON} للانضمام.", ['{BUTTON}' => '<b>\'' . __('أنظم') . '\'</b>']), $this->getReplyMarkup('lobby'));
                 }
 
                 throw new StorageException();
@@ -631,7 +631,7 @@ class Game
             $this->data['players']['host'] = null;
 
             if ($this->saveData($this->data)) {
-                return $this->editMessage('<i>' . __("This game session is empty.") . '</i>', $this->getReplyMarkup('empty'));
+                return $this->editMessage('<i>' . __("جلسة اللعبة هذه فارغة.") . '</i>', $this->getReplyMarkup('empty'));
             }
 
             throw new StorageException();
@@ -645,13 +645,13 @@ class Game
             $this->data['players']['guest'] = null;
 
             if ($this->saveData($this->data)) {
-                return $this->editMessage(__('{PLAYER} quit...', ['{PLAYER}' => $currentUserMention]) . PHP_EOL . __("{PLAYER_HOST} is waiting for opponent to join...", ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __("Press {BUTTON} button to join.", ['{BUTTON}' => '<b>\'' . __('Join') . '\'</b>']), $this->getReplyMarkup('lobby'));
+                return $this->editMessage(__('تم إنهاء {PLAYER} ...', ['{PLAYER}' => $currentUserMention]) . PHP_EOL . __("{PLAYER_HOST} ينتظر انضمام الخصم ...", ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __("اضغط على الزر {BUTTON} للانضمام.", ['{BUTTON}' => '<b>\'' . __('أنظم') . '\'</b>']), $this->getReplyMarkup('lobby'));
             }
 
             throw new StorageException();
         }
 
-        Utilities::debugPrint('User quitting an empty game?');
+        Utilities::debugPrint('خروج المستخدم من لعبة فارغة؟😇');
 
         return $this->answerCallbackQuery();
     }
@@ -668,11 +668,11 @@ class Game
     protected function kickAction(): ServerResponse
     {
         if ($this->getCurrentUserId() !== $this->getUserId('host')) {
-            return $this->answerCallbackQuery(__("You're not the host!"), true);
+            return $this->answerCallbackQuery(__("أنت لست المضيف! 👨🏼‍🚀"), true);
         }
 
         if (!$this->getUser('guest')) {
-            return $this->answerCallbackQuery(__("There is no player to kick!"), true);
+            return $this->answerCallbackQuery(__("لا يوجد لاعب لركله!"), true);
         }
 
         if ($this->getUser('host')) {
@@ -682,13 +682,13 @@ class Game
             $this->data['players']['guest'] = null;
 
             if ($this->saveData($this->data)) {
-                return $this->editMessage(__('{PLAYER_GUEST} was kicked...', ['{PLAYER_GUEST}' => $user]) . PHP_EOL . __("{PLAYER_HOST} is waiting for opponent to join...", ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __("Press {BUTTON} button to join.", ['{BUTTON}' => '<b>\'' . __('Join') . '\'</b>']), $this->getReplyMarkup('lobby'));
+                return $this->editMessage(__('تم ركل {PLAYER_GUEST} ... 🏃🏼‍♂️', ['{PLAYER_GUEST}' => $user]) . PHP_EOL . __("{PLAYER_HOST} ينتظر انضمام الخصم ... 🙍🏻", ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __("اضغط على الزر {BUTTON} للانضمام", ['{BUTTON}' => '<b>\'' . __('أنظم') . '\'</b>']), $this->getReplyMarkup('lobby'));
             }
 
             throw new StorageException();
         }
 
-        Utilities::debugPrint('Kick executed on a game without a host');
+        Utilities::debugPrint('نفذت ركلة على لعبة بدون مضيف😉');
 
         return $this->answerCallbackQuery();
     }
@@ -705,19 +705,19 @@ class Game
     protected function startAction(): ServerResponse
     {
         if (!$this->getUser('host')) {
-            return $this->editMessage('<i>' . __("This game session is empty.") . '</i>', $this->getReplyMarkup('empty'));
+            return $this->editMessage('<i>' . __("جلسة اللعبة هذه فارغة.") . '</i>', $this->getReplyMarkup('empty'));
         }
 
         if ($this->getCurrentUserId() !== $this->getUserId('host') && $this->getCurrentUserId() !== $this->getUserId('guest')) {
-            return $this->answerCallbackQuery(__("You're not in this game!"), true);
+            return $this->answerCallbackQuery(__("أنت لست في هذه اللعبة!"), true);
         }
 
         if ($this->getCurrentUserId() !== $this->getUserId('host')) {
-            return $this->answerCallbackQuery(__("You're not the host!"), true);
+            return $this->answerCallbackQuery(__("أنت لست المضيف!"), true);
         }
 
         if (!$this->getUser('host') || !$this->getUser('guest')) {
-            Utilities::debugPrint('Received request to start the game but one of the players wasn\'t in the game');
+            Utilities::debugPrint('تم استلام طلب لبدء اللعبة ولكن أحد اللاعبين لم يكن في اللعبة😇');
 
             return $this->answerCallbackQuery();
         }
@@ -740,7 +740,7 @@ class Game
     protected function gameAction(): ServerResponse
     {
         if ($this->getCurrentUserId() !== $this->getUserId('host') && $this->getCurrentUserId() !== $this->getUserId('guest')) {
-            return $this->answerCallbackQuery(__("You're not in this game!"), true);
+            return $this->answerCallbackQuery(__("أنت لست في هذه اللعبة!"), true);
         }
 
         return $this->answerCallbackQuery();
@@ -758,7 +758,7 @@ class Game
     protected function languageAction(): ServerResponse
     {
         if ($this->getCurrentUserId() !== $this->getUserId('host')) {
-            return $this->answerCallbackQuery(__("You're not the host!"), true);
+            return $this->answerCallbackQuery(__("أنت لست المضيف!"), true);
         }
 
         $current_languge = Language::getCurrentLanguage();
@@ -784,10 +784,10 @@ class Game
         }
 
         if ($this->getUser('host') && $this->getUser('guest')) {
-            return $this->editMessage(__('{PLAYER_GUEST} joined...', ['{PLAYER_GUEST}' => $this->getUserMention('guest')]) . PHP_EOL . __('Waiting for {PLAYER} to start...', ['{PLAYER}' => $this->getUserMention('host')]) . PHP_EOL . __('Press {BUTTON} button to start.', ['{BUTTON}' => '<b>\'' . __('Play') . '\'</b>']), $this->getReplyMarkup('pregame'));
+            return $this->editMessage(__('انضم {PLAYER_GUEST} ... 🙍🏻', ['{PLAYER_GUEST}' => $this->getUserMention('guest')]) . PHP_EOL . __('في انتظار {PLAYER} للبدء ...', ['{PLAYER}' => $this->getUserMention('host')]) . PHP_EOL . __('اضغط على الزر {BUTTON} للبدء.', ['{BUTTON}' => '<b>\'' . __('ألعب') . '\'</b>']), $this->getReplyMarkup('pregame'));
         }
 
-        return $this->editMessage(__('{PLAYER_HOST} is waiting for opponent to join...', ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __('Press {BUTTON} button to join.', ['{BUTTON}' => '<b>\'' . __('Join') . '\'</b>']), $this->getReplyMarkup('lobby'));
+        return $this->editMessage(__('{PLAYER_HOST} ينتظر انضمام الخصم ...', ['{PLAYER_HOST}' => $this->getUserMention('host')]) . PHP_EOL . __('اضغط على الزر {BUTTON} للانضمام.', ['{BUTTON}' => '<b>\'' . __('أنظم') . '\'</b>']), $this->getReplyMarkup('lobby'));
     }
 
     /**
@@ -802,7 +802,7 @@ class Game
             [
                 new InlineKeyboardButton(
                     [
-                        'text'          => __('Create'),
+                        'text'          => __('إنشاء'),
                         'callback_data' => static::getCode() . ';new',
                     ]
                 ),
@@ -834,13 +834,13 @@ class Game
         $inline_keyboard[] = [
             new InlineKeyboardButton(
                 [
-                    'text'          => __('Quit'),
+                    'text'          => __('ترك'),
                     'callback_data' => static::getCode() . ";quit",
                 ]
             ),
             new InlineKeyboardButton(
                 [
-                    'text'          => __('Join'),
+                    'text'          => __('انضم'),
                     'callback_data' => static::getCode() . ";join",
                 ]
             ),
@@ -862,7 +862,7 @@ class Game
         $inline_keyboard[] = [
             new InlineKeyboardButton(
                 [
-                    'text'          => __('Play'),
+                    'text'          => __('ألعب'),
                     'callback_data' => static::getCode() . ";start",
                 ]
             ),
@@ -882,13 +882,13 @@ class Game
         $inline_keyboard[] = [
             new InlineKeyboardButton(
                 [
-                    'text'          => __('Quit'),
+                    'text'          => __('مغادرة'),
                     'callback_data' => static::getCode() . ";quit",
                 ]
             ),
             new InlineKeyboardButton(
                 [
-                    'text'          => __('Kick'),
+                    'text'          => __('ركل'),
                     'callback_data' => static::getCode() . ";kick",
                 ]
             ),
@@ -948,7 +948,7 @@ class Game
             $inline_keyboard[] = [
                 new InlineKeyboardButton(
                     [
-                        'text'          => __('Play again!'),
+                        'text'          => __('العب مرة أخرى!'),
                         'callback_data' => static::getCode() . ';start',
                     ]
                 ),
@@ -958,13 +958,13 @@ class Game
         $inline_keyboard[] = [
             new InlineKeyboardButton(
                 [
-                    'text'          => __('Quit'),
+                    'text'          => __('مغادرة'),
                     'callback_data' => static::getCode() . ';quit',
                 ]
             ),
             new InlineKeyboardButton(
                 [
-                    'text'          => __('Kick'),
+                    'text'          => __('ركل'),
                     'callback_data' => static::getCode() . ';kick',
                 ]
             ),
@@ -1032,9 +1032,9 @@ class Game
      */
     protected function handleEmptyData(): ServerResponse
     {
-        Utilities::debugPrint('Empty game data');
+        Utilities::debugPrint('بيانات اللعبة فارغة');
 
-        $result = $this->editMessage('<i>' . __("Game session not found or expired.") . '</i>', $this->getReplyMarkup('empty'));
+        $result = $this->editMessage('<i>' . __("لم يتم العثور على جلسة اللعبة أو انتهت صلاحيتها.") . '</i>', $this->getReplyMarkup('empty'));
 
         if (!$result->isOk()) {
             return $result;
