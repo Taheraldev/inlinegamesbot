@@ -58,7 +58,8 @@ class StartCommand extends UserCommand
 
         $text = Emoji::wavingHand() . ' ';
         $text .= '<b>' . __('مرحبا 😇') . '</b>' . PHP_EOL;
-        $text .= __('للبدء ، ابدأ رسالة بـ {USAGE} في أي من محادثاتك أو انقر فوق الزر {BUTTON} ثم حدد دردشة للعب فيها.\n Dev&Eng:@ta_ja199 \nقناة البوت: @engineering_electrical9', ['{USAGE}' => '<b>\'@' . $this->getTelegram()->getBotUsername() . ' ...\'</b>', '{BUTTON}' => '<b>\'' . __('ألعب') . '\'</b>']);
+        $text .= '<b>' . __('Dev&Eng:@ta_ja199') . '</b>' . PHP_EOL;
+        $text .= __('للبدء ، ابدأ رسالة بـ {USAGE} في أي من محادثاتك أو انقر فوق الزر {BUTTON} ثم حدد دردشة للعب فيها. Dev&Eng:@ta_ja199', ['{USAGE}' => '<b>\'@' . $this->getTelegram()->getBotUsername() . ' ...\'</b>', '{BUTTON}' => '<b>\'' . __('Play') . '\'</b>']);
 
         $data = [
             'chat_id'                  => $chat_id,
